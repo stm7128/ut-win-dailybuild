@@ -60,6 +60,7 @@ jobs:
       shell: cmd
       working-directory: .\src
       run: |
+        ls ..\
         python -m pip install six requests
 
     - name: copy UT dic
