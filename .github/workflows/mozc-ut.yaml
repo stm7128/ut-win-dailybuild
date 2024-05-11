@@ -62,9 +62,10 @@ jobs:
       run: |
         python -m pip install six requests
 
-    - name: Set up pip
+    - name: copy UT dic
       shell: powershell
       run: |
+        ls
         Get-Content mozcdic-ut.txt >> .\src\data\dictionary_oss\dictionary00.txt
 
 
