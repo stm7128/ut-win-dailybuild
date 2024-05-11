@@ -1,6 +1,7 @@
 name: Ut dic Build
 
 on:
+  push:
   schedule:
     - cron: '30 5 * * 1'
 
