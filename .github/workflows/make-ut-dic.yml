@@ -36,7 +36,6 @@ jobs:
             tr '\n' '\r\n' < mozcdic-ut.txt > mozcdic-ut-windows.txt
 
       - name: Create dev release
-        if: github.ref == 'refs/heads/dev'
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
