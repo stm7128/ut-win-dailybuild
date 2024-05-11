@@ -13,24 +13,24 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        repository: utuhiro78/merge-ut-dictionaries
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          repository: utuhiro78/merge-ut-dictionaries
       
-    # Linuxでファイルを生成するステップを追加
-    - name: Setup
-      run: |
-          sudo apt update
-          sudo apt install ruby
+      # Linuxでファイルを生成するステップを追加
+      - name: Setup
+        run: |
+            sudo apt update
+            sudo apt install ruby
 
-    - name: Build UT dict
-      working-directory: ./src
-      run: |
-          sed -i 's/#alt_cannadic/alt_cannadic/' ./make.sh
-          sed -i 's/#neologd/neologd/' ./make.sh
-          bash ./make.sh
-          sed -i 's/\n/\r\n/g' mozcdic-ut.txt
+      - name: Build UT dict
+        working-directory: ./src
+        run: |
+            sed -i 's/#alt_cannadic/alt_cannadic/' ./make.sh
+            sed -i 's/#neologd/neologd/' ./make.sh
+            bash ./make.sh
+            tr '\n' '\r\n' < mozcdic-ut.txt > mozcdic-ut-windows.txt
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
