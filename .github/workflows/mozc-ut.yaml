@@ -113,6 +113,8 @@ jobs:
         name: Mozc64.msi
         path: src/out_win/Release/Mozc64.msi
         if-no-files-found: warn
+
+
   test:
     runs-on: windows-2022
     timeout-minutes: 90
