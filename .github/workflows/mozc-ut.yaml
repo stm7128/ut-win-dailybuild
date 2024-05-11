@@ -65,8 +65,7 @@ jobs:
     - name: copy UT dic
       shell: powershell
       run: |
-        ls
-        Get-Content mozcdic-ut.txt >> .\src\data\dictionary_oss\dictionary00.txt
+        Get-Content .\src\mozcdic-ut.txt >> .\src\data\dictionary_oss\dictionary00.txt
 
 
     - name: Try to restore update_deps cache
