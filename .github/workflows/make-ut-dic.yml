@@ -43,4 +43,4 @@ jobs:
           prerelease: false
           title: "Latest Rolling Release"
           files: |
-            src/mozcdic-ut.txt
+            src/mozcdic-ut-windows.txt
