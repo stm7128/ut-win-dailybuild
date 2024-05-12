@@ -48,6 +48,11 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: mozcdic-ut
+        
+    - name: Check
+      shell: cmd
+      run: |
+        ls
 
 
     - name: Checkout
