@@ -33,7 +33,7 @@ jobs:
             tr '\n' '\r\n' < mozcdic-ut.txt > mozcdic-ut-windows.txt
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@latest
         with:
           name: mozcdic-ut
           path: ./src/mozcdic-ut-windows.txt
@@ -45,10 +45,9 @@ jobs:
 
     steps:
     - name: Download artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@latest
       with:
         name: mozcdic-ut
-        path: .
 
 
     - name: Checkout
