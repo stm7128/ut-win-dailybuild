@@ -31,12 +31,10 @@ jobs:
             sed -i 's/#neologd/neologd/' ./make.sh
             bash ./make.sh
             tr '\n' '\r\n' < mozcdic-ut.txt > mozcdic-ut-windows.txt
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: mozcdic-ut
-          path: ./src/mozcdic-ut-windows.txt
+            echo "This is a file created for Windows build" > windows-build-file.txt
+            echo "FILE_PATH=$(pwd)/windows-build-file.txt" >> $GITHUB_ENV
+            echo "::set-output name=file-path::$GITHUB_WORKSPACE/windows-build-file.txt"
+      
 
   build_windows:
     runs-on: windows-latest
@@ -44,11 +42,6 @@ jobs:
     needs: build_linux
 
     steps:
-    - name: Download artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: mozcdic-ut
-
     - name: Checkout
       uses: actions/checkout@v4
       with:
@@ -65,7 +58,8 @@ jobs:
     - name: copy UT dic
       shell: powershell
       run: |
-        Get-Content D:\a\mozc-ut-windows\mozc-ut-windows\mozcdic-ut\mozcdic-ut-windows.txt >> .\src\data\dictionary_oss\dictionary00.txt
+        echo "Using file from Linux job: ${{ needs.create-file.outputs.file-path }}"
+        Get-Content ${{ needs.create-file.outputs.file-path }} >> .\src\data\dictionary_oss\dictionary00.txt
 
 
     - name: Try to restore update_deps cache
