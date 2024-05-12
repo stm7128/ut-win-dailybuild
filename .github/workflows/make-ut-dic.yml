@@ -1,47 +1,47 @@
-name: Ut dic Build
+# name: Ut dic Build
 
-on:
-  push:
-  schedule:
-    - cron: '30 5 * * 1'
+# on:
+  # push:
+  # schedule:
+    # - cron: '30 5 * * 1'
 
 
-permissions: read-all
+# permissions: read-all
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
-  cancel-in-progress: true
+# concurrency:
+  # group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  # cancel-in-progress: true
 
-jobs:
-  build_linux:
-    runs-on: ubuntu-latest
+# jobs:
+  # build_linux:
+    # runs-on: ubuntu-latest
     
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          repository: utuhiro78/merge-ut-dictionaries
+    # steps:
+      # - name: Checkout code
+        # uses: actions/checkout@v4
+        # with:
+          # repository: utuhiro78/merge-ut-dictionaries
       
-      # Linuxでファイルを生成するステップを追加
-      - name: Setup
-        run: |
-            sudo apt update
-            sudo apt install ruby
+      # # Linuxでファイルを生成するステップを追加
+      # - name: Setup
+        # run: |
+            # sudo apt update
+            # sudo apt install ruby
 
-      - name: Build UT dict
-        working-directory: ./src
-        run: |
-            sed -i 's/#alt_cannadic/alt_cannadic/' ./make.sh
-            sed -i 's/#neologd/neologd/' ./make.sh
-            bash ./make.sh
-            tr '\n' '\r\n' < mozcdic-ut.txt > mozcdic-ut-windows.txt
+      # - name: Build UT dict
+        # working-directory: ./src
+        # run: |
+            # sed -i 's/#alt_cannadic/alt_cannadic/' ./make.sh
+            # sed -i 's/#neologd/neologd/' ./make.sh
+            # bash ./make.sh
+            # tr '\n' '\r\n' < mozcdic-ut.txt > mozcdic-ut-windows.txt
 
-      - name: Create dev release
-        uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: false
-          title: "Latest Rolling Release"
-          files: |
-            src/mozcdic-ut-windows.txt
+      # - name: Create dev release
+        # uses: "marvinpinto/action-automatic-releases@latest"
+        # with:
+          # repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          # automatic_release_tag: "latest"
+          # prerelease: false
+          # title: "Latest Rolling Release"
+          # files: |
+            # src/mozcdic-ut-windows.txt

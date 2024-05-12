@@ -36,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: mozcdic-ut
-          path: ./src/mozcdic-ut.txt
+          path: ./src/mozcdic-ut-windows.txt
 
   build_windows:
     runs-on: windows-latest
@@ -48,7 +48,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: mozcdic-ut
-        path: .
+        path: artifacts
 
     - name: Checkout
       uses: actions/checkout@v4
