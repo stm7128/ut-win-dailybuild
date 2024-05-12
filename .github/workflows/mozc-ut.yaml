@@ -33,7 +33,7 @@ jobs:
             tr '\n' '\r\n' < mozcdic-ut.txt > mozcdic-ut-windows.txt
             echo "This is a file created for Windows build" > windows-build-file.txt
             echo "FILE_PATH=$(pwd)/windows-build-file.txt" >> $GITHUB_ENV
-            echo "::set-output name=file-path::$GITHUB_WORKSPACE/windows-build-file.txt"
+            echo "file-path=$(pwd)/windows-build-file.txt" >> $GITHUB_OUTPUT
       
 
   build_windows:
@@ -59,7 +59,7 @@ jobs:
       shell: powershell
       run: |
         echo "Using file from Linux job: ${{ needs.create-file.outputs.file-path }}"
-        Get-Content ${{ needs.create-file.outputs.file-path }} >> .\src\data\dictionary_oss\dictionary00.txt
+        Get-Content ${{ needs.create-file.outputs.file-path }} | Out-File -FilePath.\src\data\dictionary_oss\dictionary00.txt
 
 
     - name: Try to restore update_deps cache
