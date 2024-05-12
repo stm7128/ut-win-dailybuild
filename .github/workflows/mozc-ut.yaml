@@ -48,7 +48,6 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: mozcdic-ut
-        path: artifacts
 
     - name: Checkout
       uses: actions/checkout@v4
@@ -66,7 +65,7 @@ jobs:
     - name: copy UT dic
       shell: powershell
       run: |
-        Get-Content .\artifacts\mozcdic-ut.txt >> .\src\data\dictionary_oss\dictionary00.txt
+        Get-Content D:\a\mozc-ut-windows\mozc-ut-windows\mozcdic-ut\mozcdic-ut-windows.txt >> .\src\data\dictionary_oss\dictionary00.txt
 
 
     - name: Try to restore update_deps cache
