@@ -44,17 +44,6 @@ jobs:
     needs: build_linux
 
     steps:
-    - name: Download artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: mozcdic-ut
-        
-    - name: Check
-      shell: cmd
-      run: |
-        ls
-
-
     - name: Checkout
       uses: actions/checkout@v4
       with:
@@ -67,7 +56,16 @@ jobs:
       run: |
         ls ..\artifacts
         python -m pip install six requests
-
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: mozcdic-ut
+        
+    - name: Check
+      shell: cmd
+      run: |
+        ls
+        
     - name: copy UT dic
       shell: powershell
       run: |
