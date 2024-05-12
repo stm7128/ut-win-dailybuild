@@ -5,6 +5,7 @@ on:
   schedule:
     - cron: '30 5 * * 1'
 
+
 permissions: read-all
 
 concurrency:
