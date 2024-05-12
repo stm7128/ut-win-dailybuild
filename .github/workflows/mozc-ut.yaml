@@ -8,40 +8,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
-jobs:
-  build_linux:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          repository: utuhiro78/merge-ut-dictionaries
-      
-      # Linuxでファイルを生成するステップを追加
-      - name: Setup
-        run: |
-            sudo apt update
-            sudo apt install ruby
-
-      - name: Build UT dict
-        working-directory: ./src
-        run: |
-            sed -i 's/#alt_cannadic/alt_cannadic/' ./make.sh
-            sed -i 's/#neologd/neologd/' ./make.sh
-            bash ./make.sh
-            tr '\n' '\r\n' < mozcdic-ut.txt > mozcdic-ut-windows.txt
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: mozcdic-ut
-          path: ./src/mozcdic-ut-windows.txt
-
   build_windows:
     runs-on: windows-latest
     timeout-minutes: 120
-    needs: build_linux
 
     steps:
     - name: Checkout
@@ -50,6 +19,24 @@ jobs:
         repository: google/mozc
         submodules: 'recursive'
 
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        repository: stm7128/merge-ut-dictionaries-win
+        path: merge-ut-dictionaries-win
+
+    - name: Set up Ruby
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+    
+    - name: make UT dic
+      shell: cmd
+      working-directory: .\merge-ut-dictionaries-win\src\
+      run: |
+        .\make.ps1
+        Get-Content .\mozcdic-ut.txt >> ..\src\data\dictionary_oss\dictionary00.txt
+        
     - name: Set up pip
       shell: cmd
       working-directory: .\src
