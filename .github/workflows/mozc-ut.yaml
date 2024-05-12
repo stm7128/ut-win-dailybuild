@@ -60,13 +60,13 @@ jobs:
       shell: cmd
       working-directory: .\src
       run: |
-        ls 
+        ls ..\
         python -m pip install six requests
 
     - name: copy UT dic
       shell: powershell
       run: |
-        Get-Content .\src\mozcdic-ut.txt >> .\src\data\dictionary_oss\dictionary00.txt
+        Get-Content .\artifacts\mozcdic-ut.txt >> .\src\data\dictionary_oss\dictionary00.txt
 
 
     - name: Try to restore update_deps cache
