@@ -24,7 +24,6 @@ jobs:
       - name: setup
         working-directory: src/merge
         run: |
-          sed -i -e 's/#generate_latest/generate_latest/' make.sh
           chmod +x make.sh
           python -m pip install jaconv
 
