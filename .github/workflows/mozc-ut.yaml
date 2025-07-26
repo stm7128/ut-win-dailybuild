@@ -4,8 +4,7 @@ name: CI for Windows
 # Run on push.
 on:
   push:
-    branches:
-      - main
+
   schedule:
       - cron: '0 0 * * *'  
 
@@ -45,8 +44,8 @@ jobs:
           path: |
             src/merge/mozcdic-ut.txt
   build:
-    # https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md
-    runs-on: windows-2022
+    # https://github.com/actions/runner-images/blob/main/images/windows/Windows2025-Readme.md
+    runs-on: windows-2025
     timeout-minutes: 120
     needs:
       - buildutdic
@@ -67,12 +66,6 @@ jobs:
         shell: bash
         run: |
           cat mozcdic-ut.txt >> ./src/data/dictionary_oss/dictionary00.txt
-
-      - name: Set up pip
-        shell: cmd
-        working-directory: .\src
-        run: |
-          python -m pip install six requests
 
       - name: Try to restore update_deps cache
         uses: actions/cache@v4
@@ -100,31 +93,25 @@ jobs:
         run: |
           rmdir third_party\qt_src /s /q
 
-      - name: gyp
+      - name: build artifacts
         shell: cmd
         working-directory: .\src
+        env:
+          ANDROID_NDK_HOME: ""
         run: |
-          python build_mozc.py gyp
+          bazelisk build --config oss_windows --config release_build package
 
-      - name: build package
-        shell: cmd
-        working-directory: .\src
-        run: |
-          python build_mozc.py build -c Release package
-
-      - name: upload Mozc64.msi
+      - name: upload Mozc64_x64.msi
         uses: actions/upload-artifact@v4
         with:
-          name: Mozc64.msi
-          path: src/out_win/Release/Mozc64.msi
+          name: Mozc64_x64.msi
+          path: src/bazel-bin/win32/installer/Mozc64.msi
           if-no-files-found: warn
 
-  # actions/cache works without this job, but having this would increase the likelihood of cache hit
-  # in other jobs. Another approach would be to use "needs:".
-  # https://docs.github.com/en/actions/using-jobs/using-jobs-in-a-workflow
+
   cache_deps:
-    # https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md
-    runs-on: windows-2022
+    # https://github.com/actions/runner-images/blob/main/images/windows/Windows2025-Readme.md
+    runs-on: windows-2025
     timeout-minutes: 15
 
     steps:
