@@ -10,7 +10,7 @@ on:
 
 permissions: read-all
 
-# Prevent previous workflows from running.
+# Prevent previous workflows from running
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
